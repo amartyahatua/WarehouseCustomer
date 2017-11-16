@@ -47,11 +47,13 @@ public class Transaction {
 	public String s_dist_10;
 	public float total = 0;
 	public float ol_amount = 0;
-	ArrayList<Float> costlist = new ArrayList<>();
+	public int s_quantityInt;
+	public int ol_quantityInt;
+	ArrayList<String> infoReturn = new ArrayList<>();
 
 
 
-	public ArrayList<Float> select(String w_id, String d_id, String c_id, Warehouse wrh, District disinfo, Customer custinfo, 
+	public ArrayList<String> select(String w_id, String d_id, String c_id, Warehouse wrh, District disinfo, Customer custinfo, 
 			ArrayList<String> iidList,ArrayList<String> widList, ArrayList<String> cntList)
 	{
 		if(custinfo.getCdid().equals(d_id) && custinfo.getCwid().equals(w_id))
@@ -168,6 +170,7 @@ public class Transaction {
 				}
 				Stock stk = cld.getStock(ol_i_id);
 				ol_supply_w_id = widList.get(ol_number);
+				
 				if(stk.getSwid().equals(ol_supply_w_id)) 
 				{
 					s_quantity=stk.getSquantity();
@@ -187,8 +190,9 @@ public class Transaction {
 					String tempDistLast = d_id.substring(d_id.length()-2, d_id.length());
 					olDstInfoList.add("s_dist_"+tempDistLast);
 					stockList.add(s_quantity);
-					int s_quantityInt  = Integer.parseInt(s_quantity);
-					int ol_quantityInt = Integer.parseInt(ol_quantity);
+					s_quantityInt  = Integer.parseInt(s_quantity);
+					ol_quantityInt = Integer.parseInt(ol_quantity);
+					
 					if( s_quantityInt < ol_quantityInt )
 						s_quantityInt = s_quantityInt - ol_quantityInt;
 					else
@@ -200,7 +204,7 @@ public class Transaction {
 
 				ol_amount=ol_quantityInt * Integer.parseInt(i_price)*(Float.parseFloat(w_tax)+Float.parseFloat(d_tax)*((1-Float.parseFloat(c_discount)/100))); 
 				System.out.println(ol_amount);
-				costlist.add(ol_amount);
+				
 				total = total + (ol_amount);
 
 				}
@@ -222,8 +226,20 @@ public class Transaction {
 			Database oderLinedb = ItemAPI.store.database("oder_line",true );
 			cld.persistAllOrderLine(oderLinedb,odrLine);
 			
+			
+			
 		}
-		return costlist;
+		
+		infoReturn.add(ol_supply_w_id);
+		infoReturn.add(ol_i_id);
+		infoReturn.add(i_name);
+		infoReturn.add(Integer.toString(ol_quantityInt));
+		infoReturn.add(Integer.toString(s_quantityInt));
+		infoReturn.add("G");
+		infoReturn.add(i_price);
+		infoReturn.add(Float.toString(ol_amount));
+		
+		return infoReturn;
 
 		}
 

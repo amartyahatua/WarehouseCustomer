@@ -151,14 +151,17 @@ public class LoginServlet extends HttpServlet {
 		if(cid15.length()>0) cntList.add(cid15);
 
 
-		ArrayList<Float>  costList = connectToDataBase(infoList,iidList,widList,cntList);
+		ArrayList<String>  costList = connectToDataBase(infoList,iidList,widList,cntList);
 		PrintWriter out = response.getWriter();
 		String cost = null;
 		out.println("<html><body>");
+			out.println("<h1>");
 			out.println("<center>");
 			out.println("New Order");
 			out.println("</center>");
-			out.println("<table style="+"width: 100%"+">");
+			out.println("</h1>");
+			
+			out.println("<table border = 1>");
 			
 			out.println("<tr>");
 			
@@ -266,69 +269,73 @@ public class LoginServlet extends HttpServlet {
 			out.println("</td>");
 			
 			out.println("</tr>");
-			
+			out.println("</table>");
 			
 			/*out.println("<th></th>");
 			out.println("11-15-2017");
 			out.println("<th>District:</th>");
 			out.println("<th>Date:</th>");*/
+			
+			
+			out.println("<pre>");
+			out.println("</pre>");
+			out.println("<pre>");
+			out.println("</pre>");
+			
+			out.println("<table border = 1>");
+			out.println("<tr>");
+				out.println("<th>");
+				out.println("Supp_W");
+				out.println("</th>");
+				
+				out.println("<th>");
+				out.println("Item_id");
+				out.println("</th>");
+				
+				out.println("<th>");
+				out.println("Item_name");
+				out.println("</th>");
+				
+				out.println("<th>");
+				out.println("Qty");
+				out.println("</th>");
+				
+				out.println("<th>");
+				out.println("Stock");
+				out.println("</th>");
+				
+				out.println("<th>");
+				out.println("B/G");
+				out.println("</th>");
+				
+				out.println("<th>");
+				out.println("Price");
+				out.println("</th>");
+				
+				out.println("<th>");
+				out.println("Amount");
+				out.println("</th>");
+			out.println("</tr>");
+						
+			out.println("<tr>");
+				for(int i=0;i<costList.size();i++)
+				{
+					String data = costList.get(i);
+					out.println("<td>");
+					out.println(data);
+					out.println("</td>");
+				}
+				out.println("</tr>");
 			out.println("</table>");
 			
-			out.println("<tablecellspacing="+"10");
-			out.println("<tr>");
-			
-			out.println("<td>");
-			out.println("Supp_W");
-			out.println("</td>");
-			
-			out.println("<td>");
-			out.println("Item_id");
-			out.println("</td>");
-			
-			out.println("<td>");
-			out.println("Item_name");
-			out.println("</td>");
-			
-			out.println("<td>");
-			out.println("Qty");
-			out.println("</td>");
-			
-			out.println("<td>");
-			out.println("Stock");
-			out.println("</td>");
-			
-			out.println("<td>");
-			out.println("B/G");
-			out.println("</td>");
-			
-			out.println("<td>");
-			out.println("Price");
-			out.println("</td>");
-			
-			out.println("<td>");
-			out.println("Amount");
-			out.println("</td>");
-			
-			out.println("</tr>");
-			
-			
-			out.println("<tr>");
-			for(int i=0;i<costList.size();i++)
-			{
-				Float temp = costList.get(i);
-				out.println(Float.toString(temp));
-			}
-			out.println("</tr>");
-			out.println("</table>");
 			
 			
 			
-			out.println("Here");
 			
 		out.println("</body></html>");
 	}
 
-	private ArrayList<Float> connectToDataBase(ArrayList<String> infoList, ArrayList<String> iidList, ArrayList<String> widList, ArrayList<String> cntList) {
+	private ArrayList<String> connectToDataBase(ArrayList<String> infoList, ArrayList<String> iidList, ArrayList<String> widList, ArrayList<String> cntList) {
 		// TODO Auto-generated method stub
 		ArrayList<String> costList = new ArrayList<>();
 		Database db;
@@ -413,7 +420,7 @@ public class LoginServlet extends HttpServlet {
 		
 
 		Transaction tran = new Transaction();
-		ArrayList<Float> costListDouble = tran.select(infoList.get(0),infoList.get(1),infoList.get(2),wrh, disinfo, custinfo,  
+		ArrayList<String> costListDouble = tran.select(infoList.get(0),infoList.get(1),infoList.get(2),wrh, disinfo, custinfo,  
 				iidList, widList, cntList);
 		
 		return costListDouble;
