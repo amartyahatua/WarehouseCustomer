@@ -12,6 +12,7 @@ import wasdev.sample.District;
 import wasdev.sample.Item;
 import wasdev.sample.NewOrder;
 import wasdev.sample.Order;
+import wasdev.sample.OrderLine;
 import wasdev.sample.Stock;
 import wasdev.sample.Warehouse;
 import wasdev.sample.rest.ItemAPI;
@@ -44,11 +45,13 @@ public class Transaction {
 	public String s_dist_08;
 	public String s_dist_09;
 	public String s_dist_10;
-	ArrayList<Double> costlist = new ArrayList<>();
+	public float total = 0;
+	public float ol_amount = 0;
+	ArrayList<Float> costlist = new ArrayList<>();
 
 
 
-	public ArrayList<Double> select(String w_id, String d_id, String c_id, Warehouse wrh, District disinfo, Customer custinfo, 
+	public ArrayList<Float> select(String w_id, String d_id, String c_id, Warehouse wrh, District disinfo, Customer custinfo, 
 			ArrayList<String> iidList,ArrayList<String> widList, ArrayList<String> cntList)
 	{
 		if(custinfo.getCdid().equals(d_id) && custinfo.getCwid().equals(w_id))
@@ -195,9 +198,10 @@ public class Transaction {
 				cld.updateStock(dbstock,stk,Integer.toString(s_quantityInt)); // update stock
 
 
-				double ol_amount=ol_quantityInt * Integer.parseInt(i_price)*(Float.parseFloat(w_tax)+Float.parseFloat(d_tax)*((1-Float.parseFloat(c_discount)/100))); 
+				ol_amount=ol_quantityInt * Integer.parseInt(i_price)*(Float.parseFloat(w_tax)+Float.parseFloat(d_tax)*((1-Float.parseFloat(c_discount)/100))); 
 				System.out.println(ol_amount);
 				costlist.add(ol_amount);
+				total = total + (ol_amount);
 
 				}
 			}
@@ -205,9 +209,19 @@ public class Transaction {
 				// TODO: handle exception
 				System.out.println("Exceptoion_4:"+ e.getMessage().toString());
 			}
-
-
-
+			
+			OrderLine odrLine = new OrderLine();
+			odrLine.setOloid(o_id);
+			odrLine.setOldid(d_id);
+			odrLine.setOlwid(w_id);
+			odrLine.setOlnumber(Integer.toString(ol_number));
+			odrLine.setOliid(ol_i_id);
+			odrLine.setOlsupplywid(ol_supply_w_id);
+			odrLine.setOlquantity(ol_quantity);
+			odrLine.setOlamount(Float.toString(ol_amount));
+			Database oderLinedb = ItemAPI.store.database("oder_line",true );
+			cld.persistAllOrderLine(oderLinedb,odrLine);
+			
 		}
 		return costlist;
 

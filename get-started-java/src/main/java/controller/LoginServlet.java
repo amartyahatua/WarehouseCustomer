@@ -151,7 +151,7 @@ public class LoginServlet extends HttpServlet {
 		if(cid15.length()>0) cntList.add(cid15);
 
 
-		ArrayList<Double>  costList = connectToDataBase(infoList,iidList,widList,cntList);
+		ArrayList<Float>  costList = connectToDataBase(infoList,iidList,widList,cntList);
 		PrintWriter out = response.getWriter();
 		String cost = null;
 		out.println("<html><body>");
@@ -315,8 +315,8 @@ public class LoginServlet extends HttpServlet {
 			out.println("<tr>");
 			for(int i=0;i<costList.size();i++)
 			{
-				Double temp = costList.get(i);
-				out.println(Double.toString(temp));
+				Float temp = costList.get(i);
+				out.println(Float.toString(temp));
 			}
 			out.println("</tr>");
 			out.println("</table>");
@@ -328,7 +328,7 @@ public class LoginServlet extends HttpServlet {
 		out.println("</body></html>");
 	}
 
-	private ArrayList<Double> connectToDataBase(ArrayList<String> infoList, ArrayList<String> iidList, ArrayList<String> widList, ArrayList<String> cntList) {
+	private ArrayList<Float> connectToDataBase(ArrayList<String> infoList, ArrayList<String> iidList, ArrayList<String> widList, ArrayList<String> cntList) {
 		// TODO Auto-generated method stub
 		ArrayList<String> costList = new ArrayList<>();
 		Database db;
@@ -413,7 +413,7 @@ public class LoginServlet extends HttpServlet {
 		
 
 		Transaction tran = new Transaction();
-		ArrayList<Double> costListDouble = tran.select(infoList.get(0),infoList.get(1),infoList.get(2),wrh, disinfo, custinfo,  
+		ArrayList<Float> costListDouble = tran.select(infoList.get(0),infoList.get(1),infoList.get(2),wrh, disinfo, custinfo,  
 				iidList, widList, cntList);
 		
 		return costListDouble;
