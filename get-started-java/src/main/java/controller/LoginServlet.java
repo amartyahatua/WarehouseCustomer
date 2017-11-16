@@ -5,16 +5,13 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.cloudant.client.api.CloudantClient;
 import com.cloudant.client.api.Database;
-
 import wasdev.sample.Customer;
 import wasdev.sample.District;
 import wasdev.sample.Order;
@@ -158,64 +155,237 @@ public class LoginServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		String cost = null;
 		out.println("<html><body>");
-		for(int i=0;i<costList.size();i++)
-			cost = Double.toString(costList.get(i));
-			out.println("<h1>");
-			out.println(cost);
-			out.println("</h1>");
+			out.println("<center>");
+			out.println("New Order");
+			out.println("</center>");
+			out.println("<table style="+"width: 100%"+">");
+			
+			out.println("<tr>");
+			
+			out.println("<th>");
+			out.println("Warehouse");
+			out.println("</th>");
+			
+			out.println("<td>");
+			out.println(infoList.get(0));
+			out.println("</td>");
+			
+			out.println("<th>");
+			out.println("District");
+			out.println("</th>");
+			
+			out.println("<td>");
+			out.println(infoList.get(1));
+			out.println("</td>");
+			
+			Date dNow = new Date( );
+			SimpleDateFormat ft = new SimpleDateFormat ("yyyy.MM.dd");
+			
+			
+			out.println("<th>");
+			out.println("Date");
+			out.println("</th>");
+			
+			out.println("<td>");
+			out.println(ft.format(dNow).toString());
+			out.println("</td>");
+			
+			out.println("</tr>");
+			
+			out.println("<tr>");
+			
+			out.println("<th>");
+			out.println("Customer");
+			out.println("</th>");
+			
+			out.println("<td>");
+			out.println(infoList.get(2));
+			out.println("</td>");
+			
+			out.println("<th>");
+			out.println("Name");
+			out.println("</th>");
+			
+			out.println("<td>");
+			out.println("USM");
+			out.println("</td>");
+			
+			
+			out.println("<th>");
+			out.println("Credict");
+			out.println("</th>");
+			
+			out.println("<td>");
+			out.println("XX");
+			out.println("</td>");
+			
+			out.println("<th>");
+			out.println("%Disc");
+			out.println("</th>");
+			
+			out.println("<td>");
+			out.println("99.99");
+			out.println("</td>");
+			
+			out.println("</tr>");
+			
+			
+			out.println("<tr>");
+			
+			out.println("<th>");
+			out.println("Order Number:");
+			out.println("</th>");
+			
+			out.println("<td>");
+			out.println("9999");
+			out.println("</td>");
+			
+			out.println("<th>");
+			out.println("Number of Lines:");
+			out.println("</th>");
+			
+			out.println("<td>");
+			out.println("99");
+			out.println("</td>");
+			
+			
+			out.println("<th>");
+			out.println("W_tax");
+			out.println("</th>");
+			
+			out.println("<td>");
+			out.println("99.99");
+			out.println("</td>");
+			
+			out.println("<th>");
+			out.println("D_tax");
+			out.println("</th>");
+			
+			out.println("<td>");
+			out.println("99.99");
+			out.println("</td>");
+			
+			out.println("</tr>");
+			
+			
+			/*out.println("<th></th>");
+			out.println("11-15-2017");
+			out.println("<th>District:</th>");
+			out.println("<th>Date:</th>");*/
+			out.println("</table>");
+			
+			out.println("<tablecellspacing="+"10");
+			out.println("<tr>");
+			
+			out.println("<td>");
+			out.println("Supp_W");
+			out.println("</td>");
+			
+			out.println("<td>");
+			out.println("Item_id");
+			out.println("</td>");
+			
+			out.println("<td>");
+			out.println("Item_name");
+			out.println("</td>");
+			
+			out.println("<td>");
+			out.println("Qty");
+			out.println("</td>");
+			
+			out.println("<td>");
+			out.println("Stock");
+			out.println("</td>");
+			
+			out.println("<td>");
+			out.println("B/G");
+			out.println("</td>");
+			
+			out.println("<td>");
+			out.println("Price");
+			out.println("</td>");
+			
+			out.println("<td>");
+			out.println("Amount");
+			out.println("</td>");
+			
+			out.println("</tr>");
+			
+			
+			out.println("<tr>");
+			for(int i=0;i<costList.size();i++)
+			{
+				Double temp = costList.get(i);
+				out.println(Double.toString(temp));
+			}
+			out.println("</tr>");
+			out.println("</table>");
+			
+			
+			
+			out.println("Here");
+			
 		out.println("</body></html>");
 	}
 
 	private ArrayList<Double> connectToDataBase(ArrayList<String> infoList, ArrayList<String> iidList, ArrayList<String> widList, ArrayList<String> cntList) {
 		// TODO Auto-generated method stub
-
+		ArrayList<String> costList = new ArrayList<>();
 		Database db;
-
-		//Our database store
-		CloudantClient store = DBClient.getInstance();
-		CloudantItemStore cld = new CloudantItemStore();
-		Warehouse wrh = null;
-		District disinfo= null;
-		Customer custinfo= null;
-
-		try{
-			wrh = cld.getWareHouse(infoList.get(0));
+		
+			//Our database store
+			CloudantClient store = DBClient.getInstance();
+			CloudantItemStore cld = new CloudantItemStore();
+			Warehouse wrh = null;
+			District disinfo= null;
+			Customer custinfo= null;
+		try{	
+			wrh = cld.getWareHouse("1001");
 			try {
 				Thread.sleep(1000);
 				System.out.println("Sleeping ---------------");
-			} catch(InterruptedException ex) {
+				costList.add("Ok from 1");
+			} catch(Exception ex) {
+				costList.add("Not Ok from 1");
 				ex.printStackTrace();
 			}
 		}
 		catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("Exceptoion_A1:"+ e.getMessage().toString());
+			
+			costList.add("Not Ok from 2");
 		}
 		try{
 			try {
 				Thread.sleep(5000);
 				System.out.println("Sleeping ---------------");
+				costList.add("Ok from 2");
 			} catch(InterruptedException ex) {
 				ex.printStackTrace();
 			}
 			disinfo = cld.getDistrict(infoList.get(1));
+			costList.add("Ok from 3");
 		}
 		catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("Exceptoion_A2:"+ e.getMessage().toString());
+			costList.add("Not Ok from 3");
 		}
 		try{
 			try {
 				Thread.sleep(5000);
 				System.out.println("Sleeping ---------------");
+				costList.add("Ok from 4");
 			} catch(InterruptedException ex) {
 				ex.printStackTrace();
 			}
 			custinfo = cld.getCustomer(infoList.get(2));
+			costList.add("Ok from 5");
 		}
 		catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("Exceptoion_A3:"+ e.getMessage().toString());
+			costList.add("Not Ok from 4");
 		}
 		int oderCount = 0;
 		Database orderdb = store.database("order", true);
@@ -224,8 +394,10 @@ public class LoginServlet extends HttpServlet {
 			oderCount ++;
 			Thread.sleep(5000);
 			System.out.println("Sleeping ---------------");
+			costList.add("Ok from 6");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			costList.add("Not Ok from 5");
 			e.printStackTrace();
 		}
 		Order odr = new Order();
@@ -241,10 +413,10 @@ public class LoginServlet extends HttpServlet {
 		
 
 		Transaction tran = new Transaction();
-		ArrayList<Double> costList = tran.select(infoList.get(0),infoList.get(1),infoList.get(2),wrh, disinfo, custinfo,  
+		ArrayList<Double> costListDouble = tran.select(infoList.get(0),infoList.get(1),infoList.get(2),wrh, disinfo, custinfo,  
 				iidList, widList, cntList);
 		
-		return costList;
+		return costListDouble;
 	}
 
 	/**
